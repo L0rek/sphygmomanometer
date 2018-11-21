@@ -5,7 +5,7 @@
 #define MOTOR PB6
 #define SDA PB8
 #define SCL PB9
-#define DATA_RATE 50000
+#define DATA_RATE 50000 // in microseconds
 
 
 
