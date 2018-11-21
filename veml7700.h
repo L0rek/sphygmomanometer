@@ -9,7 +9,7 @@ class Veml7700
   public:
     Veml7700(uint8_t scl = PB9, uint8_t sda = PB8);
     bool Init();
-    uint16_t ReadData(uint8_t command);
+    double ReadData(uint8_t command);
 
   private:
     SoftWire *SWire;

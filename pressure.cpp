@@ -35,7 +35,7 @@ double Pressure::ReadFrequency()
   double time = Timer2.getCount();
   digitalWrite(e_pin, HIGH);
 
-  return (72000 / SOFT_PRESCALE / time) * (HARD_PRESCALE * N_MEAN) ;
+  return (72000 / SOFT_PRESCALE / time) * (HARD_PRESCALE * counter) ;
 }
 double Pressure::Get()
 {

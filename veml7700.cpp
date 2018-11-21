@@ -30,7 +30,7 @@ bool Veml7700::Init()
   delay(3);
   return true;
 }
-uint16_t Veml7700::ReadData(uint8_t command)
+double Veml7700::ReadData(uint8_t command)
 {
   SWire->beginTransmission(Address);
   SWire->write(command);
@@ -47,5 +47,7 @@ uint16_t Veml7700::ReadData(uint8_t command)
   }
   uint16_t data = SWire->read();
   data |= uint16_t(SWire->read()) << 8;
-  return data;
+  double lux=data*0.5f*0.2304f;
+  lux=lux*(1.0023+lux*(8.1488e-5+lux*(-9.3924e-9+(lux*6.0135e-13))));
+  return lux;
 }

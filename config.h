@@ -5,14 +5,14 @@
 #define MOTOR PB6
 #define SDA PB8
 #define SCL PB9
-#define DATA_RATE 50000 // in microseconds
+#define DATA_RATE 25 // in ms
 
 
 
 //VEML7700 config
      //ALS Configuration Register
 #define ALS_GAIN 0b01   //Gain selection; 00 = gain x1; 01 = gain x2; 10 = gain x(1/8); 11 = gain x(1/4);
-#define ALS_IT 0b1000   //ALS integration time setting; 1100 = 25ms; 1000 = 50ms; 0000 = 100ms; 0001 = 200ms; 0010 = 400ms; 0011 = 800ms;
+#define ALS_IT 0b1100   //ALS integration time setting; 1100 = 25ms; 1000 = 50ms; 0000 = 100ms; 0001 = 200ms; 0010 = 400ms; 0011 = 800ms;
 #define ALS_PERS 0b00   //ALS persistence protect number setting; 00 = 1; 01 = 2; 10 = 4; 11 = 8;
 #define ALS_INT_EN 0b0  //ALS interrupt enable setting; 0 = disable; 1 = enable;
 #define ALS_SD 0b0      //ALS shut down setting; 0 = power on; 1 = shut down;

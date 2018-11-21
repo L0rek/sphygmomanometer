@@ -9,7 +9,8 @@ Pressure pres = Pressure(F_READ,ONCLOCK);
 
 volatile bool send = false;
 int val = 40555;
-unsigned time = 0;
+volatile unsigned long time = 0;
+unsigned long last = 0;
 
 void setup() {
   veml.Init();
@@ -20,8 +21,8 @@ void setup() {
   Timer3.pause();
   Timer3.setCount(0);
   Timer3.setMode(TIMER_CH1, TIMER_OUTPUTCOMPARE);
-  Timer3.setPeriod(DATA_RATE); // in microseconds
-  Timer3.setCompare(TIMER_CH1, 1);      // overflow might be small
+  Timer3.setPeriod(1000);
+  Timer3.setCompare(TIMER_CH1, 1);
   Timer3.attachInterrupt(TIMER_CH1, handler_data);
 
 
@@ -41,10 +42,11 @@ void loop() {
         Serial.println("OK");
         break;
       case 'O':
-        digitalWrite(VALVE, LOW);
         Timer3.pause();
         Timer3.setCount(0);
+        digitalWrite(VALVE, LOW);
         time = 0;
+        last=0;
         Serial.println("OK");
         break;
       case 'M':
@@ -56,20 +58,25 @@ void loop() {
         break;
     }
   }
-  if (send == true)
+  if (time-last>=DATA_RATE)
   {
-    time += 50;
-    Serial.print(time);
+    last = time;
+    Serial.print(time,DEC);
     Serial.print("\t");
-    Serial.print(pres.Get());
+    Timer3.pause();
+    double pressure = pres.Get();
+    double lux = veml.ReadData(0x04);
+    Timer3.resume();
+    Serial.print(pressure,4);
     Serial.print("\t");
-    Serial.println(veml.ReadData(0x04));
-    send = false;
+    Serial.println(lux,4);
+    
+    
   }
 
 }
 
 void handler_data()
 {
-  send = true;
+  time++;
 }
