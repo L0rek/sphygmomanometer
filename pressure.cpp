@@ -25,7 +25,6 @@ void Pressure::Calibrate()
   for (int i = 0; i < 100; i++)
     first += ReadFrequency();
   first /= 100;
-  Serial.println(first);
 
 }
 double Pressure::ReadFrequency()
