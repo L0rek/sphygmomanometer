@@ -32,3 +32,4 @@
 #define N_MEAN 1000
 #define SOFT_PRESCALE 16
 #define HARD_PRESCALE 4
+#define CALIBRATE 1
