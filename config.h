@@ -35,7 +35,7 @@
 #define CALIBRATE 1
 
 //PID 
-#define KP 20000
+#define KP 30000
 #define KI 0
 #define KD 0
 #define STEP 0.025
