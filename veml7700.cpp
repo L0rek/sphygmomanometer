@@ -36,18 +36,12 @@ double Veml7700::ReadData(uint8_t command)
   SWire->write(command);
   byte error = 0 ;
   if (error = SWire->endTransmission(false))  // NB: don't send stop here
-  {
-    Serial.print("recive_data error ");
-    Serial.println(error);
-  }
+    return error * -100;
   if (error = SWire->requestFrom(Address, 2) != 2)
-  {
-    Serial.print("requestFrom error ");
-    Serial.println(error);
-  }
+    return error * -100;
   uint16_t data = SWire->read();
   data |= uint16_t(SWire->read()) << 8;
-  double lux=data*0.5f*0.2304f;
-  lux=lux*(1.0023+lux*(8.1488e-5+lux*(-9.3924e-9+(lux*6.0135e-13))));
+  double lux = data * 0.5f * 0.2304f;
+  lux = lux * (1.0023 + lux * (8.1488e-5 + lux * (-9.3924e-9 + (lux * 6.0135e-13))));
   return lux;
 }
