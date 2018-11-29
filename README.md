@@ -1,4 +1,4 @@
-#Blood pressure measurement by means of red light absorption.
+# Blood pressure measurement by means of red light absorption.
 
 Chip: https://wiki.stm32duino.com/index.php?title=Blue_Pill
 
