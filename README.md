@@ -6,6 +6,8 @@ Light Sensor: https://www.vishay.com/docs/84286/veml7700.pdf
 
 LED: SMD 1206R Red 637nm
 
+Pressure Sensor: ----
+
 Pomp: Micro Air Pump
 
 Valve: Solenoid Valve
