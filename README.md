@@ -11,3 +11,9 @@ Pressure Sensor: ----
 Pomp: Micro Air Pump
 
 Valve: Solenoid Valve
+
+### Usefull
+
+Add stm32 lib to Arduino [Getting-Started](https://github.com/stm32duino/wiki/wiki/Getting-Started)
+
+Change to usb boot loader [Burning_the_bootloader](https://wiki.stm32duino.com/index.php?title=Burning_the_bootloader)
