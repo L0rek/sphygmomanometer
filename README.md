@@ -1,8 +1,8 @@
 ### Blood pressure measurement by means of red light absorption.
 
-Chip: https://wiki.stm32duino.com/index.php?title=Blue_Pill
+Chip: [stm32 Blue Pill](https://wiki.stm32duino.com/index.php?title=Blue_Pill)
 
-Light Sensor: https://www.vishay.com/docs/84286/veml7700.pdf
+Light Sensor: [VEML7700](https://www.vishay.com/docs/84286/veml7700.pdf)
 
 LED: SMD 1206R Red 637nm
 
