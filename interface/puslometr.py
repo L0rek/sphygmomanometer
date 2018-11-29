@@ -222,8 +222,8 @@ class Root(Tk):
 
             fig, ax = plt.subplots(2, 1, constrained_layout=True)
             self.ax = [ax[0], ax[0].twinx(), ax[1], ax[1].twinx()]
-            fig.set_figheight(self.winfo_screenheight()/120)
-            fig.set_figwidth(self.winfo_screenwidth()/120)
+            fig.set_figheight(self.winfo_screenheight() / 120)
+            fig.set_figwidth(self.winfo_screenwidth() / 120)
             self.canvas = FigureCanvasTkAgg(fig, master=self)
             self.canvas._tkcanvas.place(relx=0.5, rely=0.04, anchor=N)
             self.x1, = self.ax[0].plot([], [], label="pressure")
