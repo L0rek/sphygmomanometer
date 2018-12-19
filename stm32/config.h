@@ -29,13 +29,13 @@
 
 
 //Pressure config
-#define N_MEAN 1000
-#define SOFT_PRESCALE 16
-#define HARD_PRESCALE 4
+#define N_MEAN 16000
+#define SOFT_PRESCALE 32
+#define HARD_PRESCALE 1
 #define CALIBRATE 2.26
 
 //PID
-#define KP 50000
+#define KP 90000
 #define KI 0
 #define KD 0
 #define STEP 0.025

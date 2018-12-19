@@ -39,6 +39,6 @@ double Pressure::ReadFrequency()
 }
 double Pressure::Get()
 {
-  return ((first - ReadFrequency()) * CALIBRATE);
+  return (((first - ReadFrequency()) * CALIBRATE)-0.5);
 }
 volatile uint16_t Pressure::counter = 0;

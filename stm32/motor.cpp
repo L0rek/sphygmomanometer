@@ -22,7 +22,7 @@ bool Motor::Init()
   pinMode(pin, PWM);
   pwmWrite(pin, 0);
   SetK(KP,KI,KD);
-  SetFunction(5000,20000,50000);
+  SetFunction(5000,35000,5000);
   return true;
 }
 
@@ -76,9 +76,9 @@ double Motor::Function()
   if (*time < t0)
     return 0;
   else if (*time < ts)
-    return 100/double(ts-t0) * double(*time - t0);
+    return 150/double(ts-t0) * double(*time - t0);
   else if (*time < tk)
-    return 100;
+    return 150;
   else
     return 0;
 }

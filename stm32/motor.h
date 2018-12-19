@@ -6,7 +6,7 @@
 class Motor
 {
   public:
-    Motor(uint8_t pin, volatile unsigned long int *time, uint32_t max_value = 65535, uint32_t min_value = 10000);
+    Motor(uint8_t pin, volatile unsigned long int *time, uint32_t max_value = 65535, uint32_t min_value = 30000);
     bool Init();
     void UpPid(double val);
     uint32_t Pid(double error);

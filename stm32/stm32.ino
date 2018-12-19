@@ -81,12 +81,6 @@ void setup() {
   motor.Init();
   Serial.setTimeout(10);
   pinMode(VALVE, OUTPUT);
-  Timer3.pause();
-  Timer3.setCount(0);
-  Timer3.setMode(TIMER_CH1, TIMER_OUTPUTCOMPARE);
-  Timer3.setPeriod(5000);
-  Timer3.setCompare(TIMER_CH1, 1);
-  Timer3.attachInterrupt(TIMER_CH1, handler_data);
 
 
 }
@@ -100,17 +94,16 @@ void loop() {
     {
       case 'C':
         digitalWrite(VALVE, HIGH);
+        send=true;
         pres.Calibrate();
-        Timer3.resume();
         Serial.println("OK");
+        last = micros();
         break;
       case 'O':
-        Timer3.pause();
-        Timer3.setCount(0);
         digitalWrite(VALVE, LOW);
+        send=false;
         motor.PWMwrite(0);
-        time = 0;
-        last = 0;
+        time =0;
         Serial.println("OK");
         break;
       case 'M':
@@ -120,17 +113,16 @@ void loop() {
         break;
     }
   }
-  if (time - last >= DATA_RATE)
+  if (( micros()-last >= DATA_RATE*1000) && send)
   {
-    last = time;
-    Serial.print(time, DEC);
+    
+    Serial.print((time+=(micros()-last)/1000)-DATA_RATE, DEC);
+    last = micros();
     Serial.print("\t");
-    Timer3.pause();
     double pressure = pres.Get();
     double lux = veml.ReadData(0x04);
     motor.UpPid(pressure);
-    Timer3.resume();
-    Serial.print(pressure, 4);
+    Serial.print(pressure, 1);
     Serial.print("\t");
     Serial.println(lux, 4);
 
@@ -138,9 +130,4 @@ void loop() {
 
   }
 
-}
-
-void handler_data()
-{
-  time+=5;
 }
