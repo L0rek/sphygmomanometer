@@ -23,6 +23,7 @@ class Root(Tk):
         self.filename = ""
         self.is_save = True
         self.init_window("Pulsometr")
+        self.draw=False
 
     def init_window(self, name):
         self.title(name)
@@ -149,6 +150,7 @@ class Root(Tk):
             # self.Plot()
 
     def ReadData(self):
+        read=np.array([0,0,0])
         while True:
 
             while self.ser.in_waiting:
@@ -157,8 +159,11 @@ class Root(Tk):
                 if(tmp[0] != "OK"):
                     tmp = [float(tmp[0]), float(tmp[1]), float(tmp[2])]
                     tmp = np.array([tmp[0] / 1000, tmp[1], tmp[2]])
-                    self.data_list = np.vstack([self.data_list, tmp])
-            time.sleep(0.015)
+                    read = np.vstack([read, tmp])
+            if not self.draw  and len(read) > 3:
+                self.data_list = np.vstack([self.data_list, read[1:]])
+                read=np.array([0,0,0])
+            time.sleep(0.020)
 
     def IsSave(self):
         if not self.is_save and len(self.data_list) > 3:
@@ -169,10 +174,10 @@ class Root(Tk):
 
     def Plot(self, update=True):
         if(update):
-            liste = np.copy(self.data_list)
-            if(self.data_switch.get() == 'A' and len(liste) > 3):
-                fft1 = np.fft.rfft(self.data_list[1:, 1] - np.mean(liste[1:, 1]), norm="ortho")
-                fft2 = np.fft.rfft(self.data_list[1:, 2] - np.mean(liste[1:, 2]), norm="ortho")
+            self.draw=True
+            if(self.data_switch.get() == 'A' and len(self.data_list) > 3):
+                fft1 = np.fft.rfft(self.data_list[1:, 1] - np.mean(self.data_list[1:, 1]), norm="ortho")
+                fft2 = np.fft.rfft(self.data_list[1:, 2] - np.mean(self.data_list[1:, 2]), norm="ortho")
                 fft1 = np.absolute(fft1)
                 fft2 = np.absolute(fft2)
                 t = self.data_list[1:, 0]
@@ -180,15 +185,15 @@ class Root(Tk):
                 self.ax[0].set_title('Graph of light intensity and pressure from time', fontsize=14)
                 self.ax[0].set_ylabel('pressure [Hgmm]', fontsize=12)
                 self.ax[1].set_ylabel('illuminance [lx]', fontsize=12)
-                self.x1.set_data(liste[1:, 0], liste[1:, 1])
+                self.x1.set_data(self.data_list[1:, 0], self.data_list[1:, 1])
                 self.X1.set_data(freq, fft1)
                 self.X2.set_data(freq, fft2)
-                self.x2.set_data(liste[1:, 0], liste[1:, 2])
+                self.x2.set_data(self.data_list[1:, 0], self.data_list[1:, 2])
                 self.ax[0].get_yaxis().set_visible(True)
                 self.ax[1].get_yaxis().set_visible(True)
                 self.ax[2].get_yaxis().set_visible(True)
                 self.ax[3].get_yaxis().set_visible(True)
-            elif(self.data_switch.get() == 'P'and len(liste) > 3):
+            elif(self.data_switch.get() == 'P'and len(self.data_list) > 3):
                 self.ax[0].set_title('Graph of pressure from time', fontsize=14)
                 self.ax[0].set_ylabel('pressure [Hgmm]', fontsize=12)
                 self.ax[1].set_ylabel('', fontsize=12)
@@ -217,6 +222,7 @@ class Root(Tk):
                 x.relim()
                 x.autoscale_view()
             self.canvas.draw()
+            self.draw=False
 
         else:
 
@@ -258,7 +264,7 @@ class Root(Tk):
             self.ax[3].legend(bbox_to_anchor=(1.08, 0.88), loc='upper left', borderaxespad=0.)
             toolbar = NavigationToolbar2Tk(self.canvas, self)
             toolbar.update()
-            timer = fig.canvas.new_timer(interval=500)
+            timer = fig.canvas.new_timer(interval=1000)
             timer.add_callback(self.Plot, True)
             timer.start()
 

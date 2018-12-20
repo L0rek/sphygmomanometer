@@ -6,7 +6,7 @@ from tkinter.filedialog import *
 fs = 1/0.025  # Sampling frequency
 # Generate the time vector properly
 
-filename = "data21_24.txt"
+filename = "a.txt"
 file = open(filename, "r")
 file.readline()
 data_list=np.array([0, 0, 0], dtype='float32')
@@ -23,10 +23,11 @@ output=np.array(data_list[1:])
 #plt.plot(t, signall, label='illuminance')
 
 fc = 3  # Cut-off frequency of the filter
-fl= 0.4
+fl= 0.5
 w1 = fl / (fs / 2) # Normalize the frequency
 w2 = fc / (fs / 2) # Normalize the frequency
-b, a = signal.butter(4, (w1,w2), 'bandpass')
+#b, a = signal.butter(4, (w1,w2),'bandpass')
+b, a = signal.butter(4, (w2), 'low')
 
 output[0:,2]=(signal.filtfilt(b, a, signall)) #-output[0:,1]*0.20
 file = open("out_"+filename, "w")
